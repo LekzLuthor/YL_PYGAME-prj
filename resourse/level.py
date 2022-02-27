@@ -3,8 +3,8 @@ from settings import *
 from tile import Tile
 from Player import Player
 from support import *
-from random import choice
 from debug_mode import debug
+from weapon import Weapon
 
 
 class Level:
@@ -14,6 +14,9 @@ class Level:
         # Sprites
         self.visible_sprites = YSortCameraGroup()  # видимые спрайты
         self.obstacle_sprites = pygame.sprite.Group()  # спрайты вызывающие коллизии
+
+        # attack sprites
+        self.current_attack = None
 
         self.create_map()
 
@@ -49,7 +52,16 @@ class Level:
                             Tile((x, y), [self.visible_sprites],
                                  'object', surf)
 
-        self.player = Player((900, 450), [self.visible_sprites], self.obstacle_sprites)
+        self.player = Player(
+            (1950, 450), [self.visible_sprites], self.obstacle_sprites, self.create_attack, self.destroy_attack)
+
+    def create_attack(self):
+        self.current_attack = Weapon(self.player, [self.visible_sprites])
+
+    def destroy_attack(self):
+        if self.current_attack:
+            self.current_attack.kill()
+        self.current_attack = None
 
     def run(self):
         self.visible_sprites.custom_draw(self.player)
@@ -66,7 +78,7 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.offset = pygame.math.Vector2()
 
         # creating the floor
-        self.floor_surf = pygame.image.load('../textures/ground/main_game.png').convert()
+        self.floor_surf = pygame.image.load('../textures/ground/main_map.png').convert()
         self.floor_rect = self.floor_surf.get_rect(topleft=(0, 0))
 
     def custom_draw(self, player):

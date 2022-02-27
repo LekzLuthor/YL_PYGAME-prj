@@ -20,7 +20,7 @@ class Game:
                     pygame.quit()
                     sys.exit()
 
-            self.screen.fill('black')
+            self.screen.fill(BACKGROUND_COLOR)
             self.level.run()
             # debug('debug mode: on')
             pygame.display.update()

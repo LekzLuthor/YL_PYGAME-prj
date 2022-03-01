@@ -48,7 +48,7 @@ class Player(Entity):
         self.upgrade_cost = {'health': 100, 'energy': 100, 'attack': 100, 'magic': 100, 'speed': 100}
         self.health = self.stats['health']
         self.energy = self.stats['energy']
-        self.exp = 123
+        self.exp = 500
         self.speed = self.stats['speed']
 
         # damage timer
